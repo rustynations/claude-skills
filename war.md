@@ -444,3 +444,102 @@ FILES (read these yourself):
 ```
 
 Wait for the Referee to complete.
+
+---
+
+## Phase 5: Report + Document
+
+### 5.1 Present the Report
+
+Take the Referee's output and format as:
+
+```markdown
+# Well-Architected Review: {project/stack name}
+
+## Summary
+- Target: {CDK source path / stack name / both}
+- Pillars reviewed: {list}
+- Mode: {Standard / Max}
+- Date: {YYYY-MM-DD}
+
+## Overall Score
+| Pillar | Pass | Partial | Fail | Pass Rate |
+|--------|------|---------|------|-----------|
+| Security | X | Y | Z | N% |
+| Reliability | X | Y | Z | N% |
+| Operational Excellence | X | Y | Z | N% |
+| Performance Efficiency | X | Y | Z | N% |
+| Cost Optimization | X | Y | Z | N% |
+| Sustainability | X | Y | Z | N% |
+| **Total** | **X** | **Y** | **Z** | **N%** |
+
+## High Risk Issues (HRIs)
+{Any FAIL finding that survived adversarial challenge — listed first because
+these need attention immediately}
+
+1. **[F-SEC-2] [Security] IAM Role "MyRole" — uses AmazonS3FullAccess**
+   Impact: Role has read/write/delete to all S3 buckets in the account
+   Remediation: Replace with scoped inline policy granting only the specific
+     actions and bucket ARNs needed
+   Effort: REQUIRES DESIGN
+
+## Findings by Pillar
+
+### Security (X PASS / Y PARTIAL / Z FAIL)
+
+| # | Check | Result | Resource | Effort |
+|---|-------|--------|----------|--------|
+| F-SEC-1 | Encryption at rest | PASS | All storage | — |
+| F-SEC-2 | IAM least privilege | FAIL | MyRole | REQUIRES DESIGN |
+| F-SEC-3 | Access logging | PARTIAL | MyBucket | QUICK FIX |
+
+#### Detailed Findings
+
+**F-SEC-2: IAM least privilege — FAIL**
+Resource: MyRole
+Issue: Uses AmazonS3FullAccess managed policy
+Impact: Role has read/write/delete to all S3 buckets in the account
+Remediation: Replace with scoped inline policy granting only the specific
+  actions and bucket ARNs needed
+Effort: REQUIRES DESIGN
+
+**F-SEC-3: Access logging — PARTIAL**
+Resource: MyBucket
+Issue: S3 server access logging not configured
+Impact: No audit trail for object-level access
+Remediation: Add server access logging to a dedicated log bucket:
+  `serverAccessLogsBucket: logBucket, serverAccessLogsPrefix: 'mybucket/'`
+Effort: QUICK FIX
+
+{repeat for each pillar that has findings}
+
+## Drift (if applicable)
+{Mismatches between CDK source and deployed stack — only present when both
+targets were provided}
+
+## Adversarial Stats
+- Findings raised by Finders: {total}
+- Disproved by Adversary: {count}
+- Confirmed by Referee: {count}
+- Confidence: {confirmed}/{total} survived challenge
+
+## Disproved (for reference)
+- {finding ID}: {one-line summary} — disproved because {reason}
+```
+
+Omit pillar sections with zero findings (but keep them in the Overall Score table as all PASS). Omit the Drift section if not applicable. Omit the Disproved section if no findings were disproved.
+
+### 5.2 Save the Report
+
+Write the report to `docs/war/YYYY-MM-DD-{target-name}.md` in the project directory. Create the `docs/war/` directory if it does not exist.
+
+### 5.3 Offer Next Steps
+
+After presenting the report:
+
+> "Report saved to `docs/war/YYYY-MM-DD-{target-name}.md`. Want me to:
+> 1. Create git issues for the FAIL findings?
+> 2. Create issues for all findings (FAIL + PARTIAL)?
+> 3. Done for now — I'll work from the report."
+
+If the user chooses option 1 or 2, create issues in the project's scaffold repo using gitflow with a `war` label. Each issue should include the finding ID, description, impact, remediation guidance, and effort level.
