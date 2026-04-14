@@ -543,3 +543,16 @@ After presenting the report:
 > 3. Done for now — I'll work from the report."
 
 If the user chooses option 1 or 2, create issues in the project's scaffold repo using gitflow with a `war` label. Each issue should include the finding ID, description, impact, remediation guidance, and effort level.
+
+---
+
+## Rules
+
+1. **Always confirm before executing** — no agents spawn without user confirmation of target, pillars, and mode
+2. **Ask for missing input** — do not guess targets, profiles, or stack names
+3. **Agents read files themselves** — pass file paths and inventory, not raw file contents
+4. **Sequential after Finders** — Finders run in parallel, then Adversary, then Referee. Each phase depends on the previous output.
+5. **No piped commands** — use Grep/Read tools instead of shell pipes. One operation per Bash call.
+6. **Do not fix during review** — this skill documents findings and writes a report. Fixes are a separate task.
+7. **Respect the scope** — only review what was targeted. Do not audit the entire AWS account.
+8. **Iterate on checklists** — these are living lists. Update based on battle-test results and new AWS best practices.
