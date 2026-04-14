@@ -388,3 +388,59 @@ You are the ADVERSARY for the {PILLAR} pillar in a Well-Architected Review.
 ```
 
 After all per-pillar Adversaries return, merge their reports into one combined Adversary report.
+
+---
+
+## Phase 4: Referee
+
+Launch one Opus agent using the Agent tool with `model: "opus"`. The Referee sees both sides and makes final calls.
+
+```
+You are the REFEREE in a Well-Architected Review. Pillar Finders identified
+issues. The Adversary challenged them. You determine the truth.
+
+Your assessment will be compared against ground truth. +1 for each correct
+ruling, -1 for each incorrect ruling.
+
+FOR EACH DISPUTED FINDING (Adversary said DISPROVED):
+- Review both the Finder's evidence and the Adversary's rebuttal
+- Read the actual code/templates yourself — you are the third independent
+  pair of eyes
+- Final verdict: CONFIRMED or FALSE POSITIVE
+- If CONFIRMED: assign final status (PARTIAL / FAIL), keep or update the
+  remediation guidance if the Adversary's context improves it, preserve
+  effort category (QUICK FIX / REQUIRES DESIGN)
+- If FALSE POSITIVE: explain why the Adversary was right to disprove it
+
+FOR UNDISPUTED FINDINGS (Adversary said CONFIRMED):
+- Accept unless something looks wrong on your independent read
+- You may change status (PARTIAL ↔ FAIL) if warranted
+
+Output a clean final report organized by pillar, with only surviving findings.
+Each finding must include:
+- Finding ID (e.g., F-SEC-1)
+- Pillar
+- Resource and property
+- Status: PARTIAL or FAIL
+- Issue description
+- Impact
+- Remediation guidance
+- Effort: QUICK FIX or REQUIRES DESIGN
+
+Also output the list of checks that PASSED (from Finder reports) so the
+final report can show full coverage.
+
+FINDER REPORTS:
+{merged findings from Phase 2.7}
+
+ADVERSARY REPORT:
+{adversary report from Phase 3}
+
+INFRASTRUCTURE INVENTORY:
+{inventory from Phase 1}
+
+FILES (read these yourself):
+{file paths}
+```
+
+Wait for the Referee to complete.
