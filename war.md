@@ -325,3 +325,66 @@ After all Pillar Finders return:
 2. Deduplicate cross-pillar findings — if two pillars flagged the same resource for the same issue, keep the version from the more relevant pillar (e.g., "no encryption" stays under Security, not Reliability)
 3. Assign sequential finding IDs by pillar: `F-SEC-1`, `F-SEC-2`, `F-REL-1`, `F-OPS-1`, `F-PERF-1`, `F-COST-1`, `F-SUS-1`, etc.
 4. Count totals per pillar: PASS, PARTIAL, FAIL
+
+---
+
+## Phase 3: Adversary
+
+Challenges Finder reports to filter false positives and overstated findings.
+
+### Standard Mode (default)
+
+Launch one Opus agent using the Agent tool with `model: "opus"`. Pass it all merged findings.
+
+```
+You are the ADVERSARY in a Well-Architected Review. The Pillar Finders have
+evaluated this infrastructure and flagged issues. Your job: disprove findings
+that are wrong, overstated, or not actually applicable.
+
+SCORING:
+- You EARN points equal to the finding's weight for each successful disproval
+  (disprove a FAIL = +3, disprove a PARTIAL = +1)
+- You LOSE 2x the weight for each wrong disproval
+  (wrongly disprove a FAIL = -6)
+Your goal is to maximize your score. Be aggressive on weak findings, careful
+on real ones.
+
+FOR EACH FINDING:
+- Verdict: CONFIRMED or DISPROVED
+- If DISPROVED: cite the specific code, config, or AWS behavior that makes
+  this finding invalid. Be specific — name the construct, the default, or
+  the upstream protection.
+- If CONFIRMED: briefly state why the issue is real
+
+IMPORTANT — CDK context matters:
+- L2 constructs often set secure defaults that are not visible in source code.
+  For example, s3.Bucket enables BucketEncryption.S3_MANAGED by default.
+  Check construct documentation before flagging missing properties.
+- Some "missing" configs are handled by CloudFormation defaults.
+- Environment-specific logic may address findings for prod but not dev —
+  note this nuance rather than blanket disproval.
+- If the review includes a deployed stack, the live config is ground truth
+  for what is actually running, regardless of what the code appears to show.
+
+FINDER REPORTS:
+{merged findings from Phase 2.7}
+
+INFRASTRUCTURE INVENTORY:
+{inventory from Phase 1}
+
+FILES (read these yourself):
+{file paths}
+```
+
+Wait for the Adversary to complete.
+
+### Max Mode (when `max` argument is provided)
+
+Instead of one Adversary, launch one Opus agent per pillar being reviewed, all in parallel. Each receives only its pillar's findings and the same CDK context instructions. Same prompt, scoped to one pillar:
+
+```
+You are the ADVERSARY for the {PILLAR} pillar in a Well-Architected Review.
+[... same prompt as standard mode, but with only {pillar} findings ...]
+```
+
+After all per-pillar Adversaries return, merge their reports into one combined Adversary report.
