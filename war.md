@@ -76,3 +76,117 @@ Proceed?
 ```
 
 Do not spawn any agents until the user confirms.
+
+---
+
+## Phase 1: Inspection
+
+The goal is to produce a structured infrastructure inventory that Pillar Finders work from. Launch a single Sonnet agent using the Agent tool with `model: "sonnet"`.
+
+The inspection mode depends on what targets were provided:
+- CDK source only → Section 1.1
+- Deployed stack only → Section 1.2
+- Both → Sections 1.1, 1.2, and 1.3
+
+### 1.1 CDK Source Inspection (when path provided)
+
+```
+You are the INFRASTRUCTURE INSPECTOR in a Well-Architected Review. Your job:
+read the CDK project and produce a structured inventory of all infrastructure
+resources and their configurations.
+
+CDK PROJECT PATH: {path}
+
+INSTRUCTIONS:
+1. Use Glob to find all stack and construct files (*.ts, *.py, *.java, *.go
+   matching CDK patterns)
+2. Read each file and catalog:
+   - Stack names and their construct trees
+   - Every AWS resource by type (S3, Lambda, IAM, DynamoDB, CloudFront,
+     API Gateway, SQS, SNS, RDS, ECS, EC2, CloudWatch, WAF, etc.)
+   - Configuration properties on each resource: encryption settings, removal
+     policies, logging config, timeout values, memory sizes, security groups,
+     IAM policies, environment variables, tags
+   - Cross-stack references and dependencies
+   - Environment-specific logic (prod vs dev conditionals, stage parameters)
+
+3. Output a structured inventory in this format:
+
+Stacks:
+  - StackName: [list of construct IDs]
+
+Resources:
+  S3:
+    - BucketName: { encryption: X, versioning: X, removalPolicy: X,
+                    logging: X, publicAccess: X, lifecycle: X }
+  Lambda:
+    - FunctionName: { runtime: X, memory: X, timeout: X, tracing: X,
+                      reservedConcurrency: X, dlq: X, env: [keys only] }
+  IAM:
+    - RoleName: { managedPolicies: [...], inlinePolicies: [summary],
+                  trust: [...] }
+  [... all resource types found ...]
+
+Cross-Stack References:
+  - StackA exports X, consumed by StackB
+
+Environment Logic:
+  - [any prod/dev/stage conditionals noted]
+
+Be thorough. Every resource and every configuration property matters for the
+review. If a property is not explicitly set, note it as "default" — the
+Finders need to know what was left to defaults.
+```
+
+### 1.2 Deployed Stack Inspection (when stack reference provided)
+
+```
+You are the INFRASTRUCTURE INSPECTOR in a Well-Architected Review. Your job:
+inspect the deployed CloudFormation stack and produce a structured inventory.
+
+STACK: {stack_name}
+PROFILE: {profile}
+
+INSTRUCTIONS:
+1. Get the synthesized template:
+   aws cloudformation get-template --stack-name {stack_name} --profile {profile}
+
+2. Get the resource list with physical IDs:
+   aws cloudformation describe-stack-resources --stack-name {stack_name} --profile {profile}
+
+3. Get stack metadata (outputs, parameters, tags):
+   aws cloudformation describe-stacks --stack-name {stack_name} --profile {profile}
+
+4. Pull live resource configs when the template alone is insufficient to
+   determine compliance. Examples:
+   - aws s3api get-bucket-encryption --bucket {name} --profile {profile}
+   - aws s3api get-bucket-logging --bucket {name} --profile {profile}
+   - aws s3api get-public-access-block --bucket {name} --profile {profile}
+   - aws lambda get-function-configuration --function-name {name} --profile {profile}
+   - aws iam get-role --role-name {name} --profile {profile}
+   - aws iam list-attached-role-policies --role-name {name} --profile {profile}
+
+5. Output the same structured inventory format as CDK Source Inspection:
+   Stacks, Resources (by type with config properties), Cross-Stack References.
+
+Run one AWS CLI command per Bash call. Do not chain commands.
+```
+
+### 1.3 Drift Detection (when both provided)
+
+After both inspections complete, compare the inventories:
+
+- Resources in CDK source but not deployed (or vice versa)
+- Configuration mismatches (e.g., code says `versioning: enabled`, deployed has `versioning: suspended`)
+- Properties set in code but overridden in the deployed stack
+
+Format drift findings as:
+
+```
+Drift:
+  - ResourceName: code says {X}, deployed has {Y}
+  - ResourceName: exists in code but not deployed
+  - ResourceName: deployed but not in code
+```
+
+Pass drift findings to ALL Pillar Finders as additional context.
