@@ -282,3 +282,46 @@ Checklist:
 - Deployment rollback capability (CloudFormation rollback, Lambda versioning and aliases)
 - Stack outputs for cross-stack observability (exported values for dependent stacks)
 - Log retention policies set (not infinite — appropriate for environment)
+
+### 2.4 Performance Efficiency Finder
+
+Checklist:
+
+- Lambda right-sizing (memory proportional to workload, timeout not excessively high)
+- Caching strategy (CloudFront for static/dynamic content, API Gateway caching, ElastiCache for hot data)
+- Compression enabled on responses (CloudFront, API Gateway, ALB)
+- Connection pooling for databases (RDS Proxy, or pooling in application layer)
+- CDN for static asset delivery (CloudFront distribution, not serving from origin directly)
+- Async processing where synchronous is not required (SQS, SNS, EventBridge, Step Functions)
+- Appropriate storage tiers (S3 Standard vs Infrequent Access vs Glacier based on access patterns)
+
+### 2.5 Cost Optimization Finder
+
+Checklist:
+
+- Right-sized compute (Lambda memory not over-provisioned, EC2/ECS instance types appropriate)
+- S3 lifecycle policies for aging data (transition to IA/Glacier, expiration for temp objects)
+- DynamoDB capacity mode appropriate for access pattern (on-demand for spiky, provisioned for steady)
+- No orphaned or unused resources (security groups with no instances, unattached EBS volumes, idle NAT gateways)
+- Data transfer optimization (VPC endpoints for AWS services, regional co-location, CloudFront to reduce origin fetches)
+- DESTROY removal policy not used on resources that could be cheaply recreated (avoid accidental cost from re-creating expensive state)
+- Log retention set appropriately (not retaining debug logs forever)
+
+### 2.6 Sustainability Finder
+
+Checklist:
+
+- Managed services preferred over self-hosted equivalents (Fargate over EC2, Aurora Serverless over self-managed RDS, SQS over self-hosted queues)
+- Efficient resource utilization (no idle compute, auto-scaling to match demand)
+- Right-sizing across all compute (Lambda, ECS, EC2 — not permanently over-provisioned)
+- Async processing where synchronous is not required (reduces idle wait and resource hold)
+- Minimal data movement (co-located services in same region/AZ, avoid unnecessary cross-region replication)
+
+### 2.7 Merge Finder Reports
+
+After all Pillar Finders return:
+
+1. Collect all reports, keeping pillar attribution
+2. Deduplicate cross-pillar findings — if two pillars flagged the same resource for the same issue, keep the version from the more relevant pillar (e.g., "no encryption" stays under Security, not Reliability)
+3. Assign sequential finding IDs by pillar: `F-SEC-1`, `F-SEC-2`, `F-REL-1`, `F-OPS-1`, `F-PERF-1`, `F-COST-1`, `F-SUS-1`, etc.
+4. Count totals per pillar: PASS, PARTIAL, FAIL
