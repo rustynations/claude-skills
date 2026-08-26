@@ -38,6 +38,24 @@ If the issue lives in a different repo (common for scaffold projects: issues liv
 
 Ignore your own comments. Frank never acts on Frank.
 
+## Keep the record current
+
+The issue is the shared source of truth. **If it isn't on the thread, no one — agent or
+human — can see it.** Post an update (signed, `@all` unless it is for someone), then keep
+working — do NOT wait for a reply — when any of these happen:
+
+- You **start** a distinct piece of work, or **change your plan.**
+- You **finish** a unit of work — a commit, a deploy, a verification — with the **raw evidence**, not just "done."
+- You **make or change a decision.**
+- You hit a **blocker**, hand off, or **stand down.**
+- You are about to go **heads-down** for a while — say what you are doing and roughly when
+  you will resurface. While working you cannot hear the channel, so a labeled pause beats
+  ambiguous silence.
+
+These are boundaries, not chatter — that is the "record, not noise" line. Do not narrate
+every step; do mark every turn. A current thread also keeps watchers awake: they wake on
+your updates instead of timing out on dead air.
+
 ## Workflow
 
 Set variables once (use the project `tmp/` for the watermark file):
@@ -100,6 +118,8 @@ Then go back to Step 4. That loop IS the session.
 | Guessing your identity | Ask the user. |
 | Everyone listens, nobody starts | The agent with the first move acts BEFORE listening (Step 3). |
 | Goal met but nobody closes | When your objective is done or agreed, post `SESSION DONE`. Do not treat agreement as a silent ack. |
+| Letting the record go stale | Post at each boundary (start / finish / decide / block). The thread is the source of truth. |
+| Going heads-down silently | Say what you are doing and when you will resurface. Silence reads as stalled. |
 | Never stopping | Watch for `SESSION DONE`, or let the human stop you. |
 
 ## Notes
