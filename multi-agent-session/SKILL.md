@@ -59,6 +59,15 @@ These are boundaries, not chatter — that is the "record, not noise" line. Do n
 every step; do mark every turn. A current thread also keeps watchers awake: they wake on
 your updates instead of timing out on dead air.
 
+## Re-check before you commit
+
+Going heads-down means you stop hearing the channel — decisions and answers can land while
+you work. So before any **commit / push / deploy** (or after a long heads-down stretch), do
+**one quick read** of the thread. Build the instructions that are **current now**, not the
+ones from when you started. If a decision changed your task, absorb it before you ship.
+
+This is the listening half of the record: post at your boundaries, and **read at them too.**
+
 ## Workflow
 
 Set variables once (use the project `tmp/` for the watermark file):
@@ -124,6 +133,7 @@ Then go back to Step 4. That loop IS the session.
 | Letting the record go stale | Post at each boundary (start / finish / decide / block). The thread is the source of truth. |
 | Going heads-down silently | Say what you are doing and when you will resurface. Silence reads as stalled. |
 | Asking the human out-of-band | Need the human? Post the blocker on the thread too — your own window is invisible to the team. |
+| Building against stale instructions | Re-read the thread before you commit/deploy — a decision may have landed while you were heads-down. |
 | Never stopping | Watch for `SESSION DONE`, or let the human stop you. |
 
 ## Notes
