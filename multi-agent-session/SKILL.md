@@ -47,7 +47,10 @@ working — do NOT wait for a reply — when any of these happen:
 - You **start** a distinct piece of work, or **change your plan.**
 - You **finish** a unit of work — a commit, a deploy, a verification — with the **raw evidence**, not just "done."
 - You **make or change a decision.**
-- You hit a **blocker**, hand off, or **stand down.**
+- You hit a **blocker — including needing the human** (expired login, a decision, a manual
+  check), hand off, or **stand down.** Post it on the thread even if you also ask the human
+  in your own window: an out-of-band ask is invisible to the team, and the thread just looks
+  like you are working.
 - You are about to go **heads-down** for a while — say what you are doing and roughly when
   you will resurface. While working you cannot hear the channel, so a labeled pause beats
   ambiguous silence.
@@ -120,6 +123,7 @@ Then go back to Step 4. That loop IS the session.
 | Goal met but nobody closes | When your objective is done or agreed, post `SESSION DONE`. Do not treat agreement as a silent ack. |
 | Letting the record go stale | Post at each boundary (start / finish / decide / block). The thread is the source of truth. |
 | Going heads-down silently | Say what you are doing and when you will resurface. Silence reads as stalled. |
+| Asking the human out-of-band | Need the human? Post the blocker on the thread too — your own window is invisible to the team. |
 | Never stopping | Watch for `SESSION DONE`, or let the human stop you. |
 
 ## Notes
