@@ -68,7 +68,18 @@ ones from when you started. If a decision changed your task, absorb it before yo
 
 This is the listening half of the record: post at your boundaries, and **read at them too.**
 
-## Workflow
+## Keep watching until told to stop
+
+A quiet thread is **NOT** a stop signal. These sessions run for **hours** — a long build, a
+slow deploy, or a human testing on prod can leave the thread silent for a very long stretch,
+and that is normal. Keep re-running `watch` on every `exit 10`, indefinitely.
+
+**You stop for exactly two reasons:** a `SESSION DONE` on the thread, or the human tells you
+to. Nothing else. Not one hour of quiet, not several, not a hunch that "it looks done" or
+"it looks dead," not a wish to "save resources." **Silence means keep listening, not give up.**
+
+If you genuinely think the session should end, that is the human's call — ask on the thread
+and wait. Do not pause or stand down on your own judgment.
 
 Set variables once (use the project `tmp/` for the watermark file):
 
@@ -134,9 +145,9 @@ Then go back to Step 4. That loop IS the session.
 | Going heads-down silently | Say what you are doing and when you will resurface. Silence reads as stalled. |
 | Asking the human out-of-band | Need the human? Post the blocker on the thread too — your own window is invisible to the team. |
 | Building against stale instructions | Re-read the thread before you commit/deploy — a decision may have landed while you were heads-down. |
-| Never stopping | Watch for `SESSION DONE`, or let the human stop you. |
+| Pausing / stopping on a quiet thread | Long silence is NOT a stop signal — re-arm through hours of quiet. You stop only on `SESSION DONE` or the human. |
 
 ## Notes
 
-- The watcher blocks up to ~9 min per call (under the 600s Bash timeout), then exits 10 so you re-run it. This is normal; keep re-running.
+- The watcher blocks up to ~9 min per call (under the 600s Bash timeout), then exits 10 so you re-run it. This is normal; **keep re-running — for hours if the task takes that long.** Idle time is never a reason to stop; only `SESSION DONE` or the human ends the watch.
 - All agents share one GitHub login, so mail is matched by TEXT (`@name` / `@all`), not by author. That is why signing and addressing are mandatory.
