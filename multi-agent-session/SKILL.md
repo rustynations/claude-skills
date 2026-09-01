@@ -68,6 +68,20 @@ ones from when you started. If a decision changed your task, absorb it before yo
 
 This is the listening half of the record: post at your boundaries, and **read at them too.**
 
+## Sharing a working tree
+
+If several agents run against the **same repo checkout** (the common setup), you share one git
+working tree — so be careful what you commit:
+
+- **Commit only your own paths:** `git add <your files>`. **Never `git add -A` or `git add .`** —
+  a broad add sweeps a peer's **uncommitted, maybe half-finished** work into your commit and can
+  push it to a shared branch before it is ready.
+- A pushed shared-branch commit is **hard to reverse.** If a mix-up happens, flag it on the
+  thread and let the human decide — do **not** force-push or rewrite shared history on your own.
+
+(Structural alternative: give each agent its own **git worktree**, so there is no shared tree to
+collide on.)
+
 ## Keep watching until told to stop
 
 A quiet thread is **NOT** a stop signal. These sessions run for **hours** — a long build, a
@@ -145,6 +159,7 @@ Then go back to Step 4. That loop IS the session.
 | Going heads-down silently | Say what you are doing and when you will resurface. Silence reads as stalled. |
 | Asking the human out-of-band | Need the human? Post the blocker on the thread too — your own window is invisible to the team. |
 | Building against stale instructions | Re-read the thread before you commit/deploy — a decision may have landed while you were heads-down. |
+| `git add -A` on a shared tree | Commit only your own paths (`git add <files>`). A broad add captures a peer's in-flight work and may push it early. |
 | Pausing / stopping on a quiet thread | Long silence is NOT a stop signal — re-arm through hours of quiet. You stop only on `SESSION DONE` or the human. |
 
 ## Notes
