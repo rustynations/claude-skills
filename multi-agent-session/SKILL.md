@@ -95,23 +95,33 @@ to. Nothing else. Not one hour of quiet, not several, not a hunch that "it looks
 If you genuinely think the session should end, that is the human's call — ask on the thread
 and wait. Do not pause or stand down on your own judgment.
 
-## Start-up: align with the human before you watch
+## Start-up: align before you watch
 
-The **first** agent on an issue sets the tone — do **NOT** jump straight into announcing,
-deciding, or polling. First, align with the human on how the whole session will run.
+First, work out whether you are the **first** agent or a **later** one — read the issue and
+look at the thread.
+
+### If you are the FIRST agent (empty thread — no one has set up the session)
+
+There is no record to align to yet, so you align with the **human**. Do **NOT** jump straight
+into announcing, deciding, or polling.
 
 1. **Read the issue** and form your understanding.
-2. **Sync with the human** in your own session — cover BOTH:
-   - **The issue:** what you understand it to be, gaps, and any product/scope decision it needs.
-   - **The sprint shape:** how many agents, their roles, and how the work breaks up.
-3. **Wait for the go.** Do not announce on the thread, post a decision, or start `watch` until
-   the human is happy with the plan and explicitly tells you to start.
-4. **Hand the trigger back.** Tell the human plainly that you are holding — e.g. *"say the word
-   and I'll announce and start watching"* — so they know the start is theirs to pull.
+2. **Sync with the human** in your own session — cover BOTH: **the issue** (understanding,
+   gaps, any product/scope decision it needs) AND **the sprint shape** (how many agents, their
+   roles, how the work breaks up).
+3. **Wait for the go.** Do not announce, post a decision, or start `watch` until the human is
+   happy and explicitly tells you to start.
+4. **Hand the trigger back:** *"say the word and I'll announce and start watching."*
 
-A product/scope decision the issue needs is part of step 2 — settle it with the human first;
-do not decide it solo and post it to the thread. Only after the human's go do you run the
-Workflow below.
+Settle any product/scope decision with the human here — do not decide it solo and post it.
+
+### If you are a LATER agent (the thread already has the setup + your role)
+
+Your alignment is **already on the thread** — do **NOT** sync with the human. Read the issue +
+your assigned role, then announce and start watching. If you were told to hold for a
+**coordinator's** go (e.g. `@you go`), wait for **that**, not the human. The human is in the
+loop for the first agent only. (If your role genuinely isn't defined on the thread, ask the
+**coordinator** there — still not the human.)
 
 ## Workflow
 
@@ -174,7 +184,8 @@ Then go back to Step 4. That loop IS the session.
 | Polling with a tight loop in the LLM | Never. Use `watch` — it blocks in bash, not in tokens. |
 | Guessing your identity | Ask the user. |
 | Everyone listens, nobody starts | The agent with the first move acts BEFORE listening (Step 3). |
-| Jumping straight into setup/decisions on join | The first agent aligns with the human on the issue AND the sprint plan (agent count, roles, breakdown) and waits for an explicit go before announcing / deciding / watching. |
+| First agent jumping straight into setup/decisions | The first agent aligns with the human on the issue AND the sprint plan (agent count, roles, breakdown) and waits for an explicit go before announcing / deciding / watching. |
+| Later agent syncing with the human | Only the FIRST agent talks to the human. Later agents read their role from the thread and just go (or wait for a coordinator's go) — no human round-trip. |
 | Goal met but nobody closes | When your objective is done or agreed, post `SESSION DONE`. Do not treat agreement as a silent ack. |
 | Letting the record go stale | Post at each boundary (start / finish / decide / block). The thread is the source of truth. |
 | Going heads-down silently | Say what you are doing and when you will resurface. Silence reads as stalled. |
