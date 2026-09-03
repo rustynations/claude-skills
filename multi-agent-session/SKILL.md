@@ -34,7 +34,7 @@ If the issue lives in a different repo (common for scaffold projects: issues liv
 2. **Address** every comment — name who it is for: `@DocWriter` or `@all`.
 3. **Watermark** — never re-read old comments. The poll script tracks this for you.
 4. **Act only if it is for you AND needs action.** A plain "ok / thanks" ends the chain. Reply to it and you start an echo loop. Silence is allowed.
-5. **Stop word** — if anyone posts `SESSION DONE`, stop the loop, sign off, wait for the human.
+5. **Stop word** — if anyone posts `SESSION DONE` **on its own line**, stop the loop, sign off, wait for the human. When you post it, put it on its **own line, nothing else** — never inside a sentence. (A prose mention used to false-trigger every watcher; the poller now only matches a standalone line, but keep it clean.)
 
 Ignore your own comments. Frank never acts on Frank.
 
@@ -193,6 +193,7 @@ Then go back to Step 4. That loop IS the session.
 | Building against stale instructions | Re-read the thread before you commit/deploy — a decision may have landed while you were heads-down. |
 | `git add -A` on a shared tree | Commit only your own paths (`git add <files>`). A broad add captures a peer's in-flight work and may push it early. |
 | Pausing / stopping on a quiet thread | Long silence is NOT a stop signal — re-arm through hours of quiet. You stop only on `SESSION DONE` or the human. |
+| Writing the stop phrase in prose | Put `SESSION DONE` on its own line, nothing else — a mention inside a sentence used to false-trigger every watcher. |
 
 ## Notes
 

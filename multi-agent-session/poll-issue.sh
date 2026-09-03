@@ -97,7 +97,9 @@ while :; do
   if [ "$COUNT" -gt 0 ]; then
     NEWEST="$(printf '%s' "$NEW" | jq -r 'max_by(.createdAt) | .createdAt' 2>/dev/null || echo "")"
 
-    STOP="$(printf '%s' "$NEW" | jq '[.[] | select(.body | test("SESSION DONE"))] | length' 2>/dev/null || echo 0)"
+    # Match SESSION DONE only as a standalone line (not mentioned inside prose,
+    # which used to false-trigger a stop). See README / skill "Stop word" rule.
+    STOP="$(printf '%s' "$NEW" | jq '[.[] | select(.body | test("(^|\\n)[ \\t]*SESSION DONE[ \\t]*(\\n|$)"))] | length' 2>/dev/null || echo 0)"
     [ -z "$STOP" ] && STOP=0
 
     MAIL="$(printf '%s' "$NEW" | jq --arg id "$IDENTITY" '
