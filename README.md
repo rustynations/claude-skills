@@ -16,6 +16,12 @@ Skills are markdown files with YAML frontmatter that Claude Code loads on demand
 | **gitflow** | Automate GitHub issue and PR workflow — create issues, suggest branches, ensure PRs reference issues |
 | **reviewRepo** | Evaluate a third-party GitHub repo for adoption, extraction, or skipping |
 
+## Related Repos
+
+| Repo | Purpose |
+|------|---------|
+| [**multi-agent-session-communication**](https://github.com/rustynations/multi-agent-session-communication) | The `multi-agent-session` skill in its own repo — peer Claude Code sessions coordinating over a shared GitHub issue as the message bus |
+
 ## Archived Skills
 
 Legacy skills from the original collection are in `archived/`. These were either superseded by [superpowers](https://github.com/anthropics/claude-code-plugins) plugins or never adopted into active use. They remain available for reference but are not maintained.
