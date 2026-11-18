@@ -37,6 +37,14 @@ Four labels used across all repos. Create on demand if missing from the target r
 
 Before creating a label, check if it already exists: `gh label list --repo <repo> --search <label>`. Skip creation if it exists (even if color differs).
 
+### Area labels
+
+Every issue gets one type label above **plus at least one area label**. An area says which part of the project the work touches, so a filter finds it and an agent reading the issue knows where to look.
+
+Areas are per project. Read them from the project's `manifest.json` → `issueAreas`, a map of label name to meaning. Use only labels from that map. If the project has no `issueAreas`, skip area labels.
+
+If the map has an umbrella label (e.g. "every surface"), add the umbrella **and** each label it covers.
+
 ## Repo Conventions
 
 - **GitHub user:** `<YOUR-GITHUB-USER>`
@@ -54,11 +62,12 @@ Before creating a label, check if it already exists: `gh label list --repo <repo
 3. **Compose:**
    - Title: concise, from conversation context
    - Label: one of `blocker`, `bug`, `parked`, `idea`
+   - Areas: one or more from the target project's `issueAreas` (see Area labels)
    - Body: 2-3 sentences max. Problem + origin. For cross-project issues, include `**Origin:** Discovered while working in <current-project>.`
-4. **Confirm:** present the title, label, and target repo. Ask yes/no.
+4. **Confirm:** present the title, labels, and target repo. Ask yes/no.
 5. **Execute:**
    ```
-   gh issue create --repo <YOUR-GITHUB-USER>/<repo> --label <label> --title "<title>" --body "<body>"
+   gh issue create --repo <YOUR-GITHUB-USER>/<repo> --label <label> --label <area> --title "<title>" --body "<body>"
    ```
 6. **Report:** display the issue URL
 
