@@ -50,7 +50,8 @@ If the map has an umbrella label (e.g. "every surface"), add the umbrella **and*
 - **GitHub user:** `<YOUR-GITHUB-USER>`
 - **Issues** go in scaffold repos (`<project>-project`) — project-level tracking
 - **PRs** go in component repos (where the code lives)
-- **Cross-repo close syntax:** always use `Fixes <YOUR-GITHUB-USER>/<scaffold-repo>#N` (short `#N` only works same-repo)
+- **Linking work to an issue:** use `Refs <YOUR-GITHUB-USER>/<scaffold-repo>#N` in commits and PR bodies. `Refs` is inert: it links and never closes.
+- **`Fixes` / `Closes` / `Resolves` only when the user explicitly asks** to close that issue on push. A closing keyword fires from any repo, qualified or not. Otherwise close by hand once verified: `gh issue close N --repo <YOUR-GITHUB-USER>/<scaffold-repo> --comment "Fixed in <component-repo>@<sha>."`
 - **Branch naming:** `fix/<slug>`, `feat/<slug>`, or `chore/<slug>` — kebab-case
 
 ## Action: Create Issue
@@ -85,18 +86,19 @@ If the map has an umbrella label (e.g. "every surface"), add the umbrella **and*
    - `git commit -m "<message>"` — message derived from PR title
    - `git push -u origin <branch-name>`
    - `gh pr create --title "<title>" --body "<body>"`
-5. **Link issues:** search for related open issues in the scaffold repo. If found, include `Fixes <YOUR-GITHUB-USER>/<scaffold-repo>#N` in the PR body.
+5. **Link issues:** search for related open issues in the scaffold repo. If found, include `Refs <YOUR-GITHUB-USER>/<scaffold-repo>#N` in the PR body.
 6. **Report:** display the PR URL
 
 ## Action: Close via PR
 
 1. **Detect:** on a feature branch, user signals work is complete
 2. **Check:** find the open PR for the current branch. Find related open issues.
-3. **Confirm:** "Ready to merge PR #N (squash)? This will close issue #N." — yes/no. Only ask about strategy if the user explicitly requests merge or rebase.
-4. **Ensure** the PR body contains `Fixes <YOUR-GITHUB-USER>/<scaffold-repo>#N` (full cross-repo syntax). Edit the PR body if needed before merging.
+3. **Confirm:** "Ready to merge PR #N (squash)?" — yes/no. Only ask about strategy if the user explicitly requests merge or rebase.
+4. **Ensure** the PR body contains `Refs <YOUR-GITHUB-USER>/<scaffold-repo>#N` (full cross-repo syntax). Edit the PR body if needed before merging.
 5. **Execute:** `gh pr merge --squash` (unless user requested a different strategy)
 6. **Cleanup:** "Delete branch `<name>`?" — yes/no. If yes: `git checkout main && git pull && git branch -d <branch>`
-7. **Report:** confirm PR merged, issue closed, branch deleted
+7. **Close the issue by hand** once the work is verified, with the `gh issue close` command in Repo Conventions. Ask first.
+8. **Report:** confirm PR merged, issue state, branch deleted
 
 ## Action: Check Status
 
